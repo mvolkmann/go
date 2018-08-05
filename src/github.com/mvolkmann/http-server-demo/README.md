@@ -4,7 +4,7 @@ This demonstrates use of the Go package httprouter
 at <https://github.com/julienschmidt/httprouter>.
 
 To run this, cd to `$GOPATH` and enter
-`go run src/github.com/mvolkmann/http-server-demo/http-server.go`.
+`go run src/github.com/mvolkmann/http-server-demo/main.go`.
 
 ## URLs to try
 
