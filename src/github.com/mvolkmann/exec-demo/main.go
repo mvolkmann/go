@@ -1,3 +1,5 @@
+// To run this, cd to $GOPATH and enter
+// go run src/github.com/mvolkmann/exec-demo/main.go
 package main
 
 import (
