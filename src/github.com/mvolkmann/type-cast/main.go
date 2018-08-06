@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"reflect"
+)
 
 type any interface{}
 type callback func(any) any
@@ -13,11 +16,26 @@ func mapper(slice []any, fn callback) []any {
 	return result
 }
 
+/*
 func anyTimes2(n any) any {
-	var result any = n.(int) * 2
+	var result any
+	switch value := n.(type) {
+	//case int, int32, int64, float32, float64:
+	case int, float64:
+		result = value * 2
+	case float32:
+		result = value * 2
+	}
+	//var result any = n.(t) * 2
 	return result
 }
-func intTimes2(n int) int { return n * 2 }
+*/
+
+func anyTimes2(n any) any {
+	kind := reflect.TypeOf(n)
+	var result any = n.(kind) * 2
+	return result
+}
 
 func main() {
 	nums := []int{1, 2, 4}
