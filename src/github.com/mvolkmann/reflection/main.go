@@ -19,6 +19,10 @@ func whatAmI(value any) {
 	}
 }
 
+func variadicFn(args ...int) {
+	whatAmI(args)
+}
+
 func main() {
 	s := []int{1, 2, 3}
 	whatAmI(s)
@@ -28,4 +32,6 @@ func main() {
 
 	i := 1
 	whatAmI(i)
+
+	variadicFn(1, 2, 3)
 }
