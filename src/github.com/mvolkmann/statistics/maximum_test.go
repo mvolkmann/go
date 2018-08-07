@@ -1,6 +1,9 @@
 package statistics
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestMax(t *testing.T) {
 	type args struct {
@@ -22,4 +25,14 @@ func TestMax(t *testing.T) {
 			}
 		})
 	}
+}
+
+func ExampleMax() {
+	fmt.Println(Max([]float64{}))
+	fmt.Println(Max([]float64{3.1}))
+	fmt.Println(Max([]float64{3.1, 7.2, 5.0}))
+	// Output:
+	// 0
+	// 3.1
+	// 7.2
 }
