@@ -1,10 +1,18 @@
 package mapover
 
 import (
+	"fmt"
+	"os"
 	"reflect"
 	"testing"
 )
 
+func TestMain(m *testing.M) {
+	fmt.Println("doing setup")
+	result := m.Run()
+	fmt.Println("doing teardown")
+	os.Exit(result)
+}
 func Test_Floats(t *testing.T) {
 	values := []float64{1.2, 2.3, 4.5}
 	expected := []float64{2.4, 4.6, 9.0}
