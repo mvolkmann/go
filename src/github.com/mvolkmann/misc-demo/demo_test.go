@@ -1,19 +1,5 @@
 package main
 
-import (
-	"reflect"
-	"testing"
-)
-
-func Test_mapOverInts(t *testing.T) {
-	ints := []int{1, 2, 4}
-	expected := []int{2, 4, 8}
-	actual := mapOverInts(ints, func(n int) int { return n * 2 })
-	if !reflect.DeepEqual(actual, expected) {
-		t.Errorf("mapOverInts expected %v but got %v", expected, actual)
-	}
-}
-
 /*
 func Test_log(t *testing.T) {
 	type args struct {

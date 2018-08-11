@@ -11,16 +11,6 @@ const blackjack = 21
 
 type any interface{}
 
-type intToIntFn = func(int) int
-
-func mapOverInts(arr []int, fn intToIntFn) []int {
-	result := make([]int, len(arr))
-	for i, v := range arr {
-		result[i] = fn(v)
-	}
-	return result
-}
-
 //func log(args ...interface{}) {
 func log(args ...any) {
 	fmt.Println(args)
