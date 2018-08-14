@@ -38,6 +38,8 @@ func MapInts(arr []int, fn func(int) int) []int {
 	return result
 }
 
+// first returns the first value in slice of ints
+// or zero if the slice is empty.
 func first(values []int) int {
 	if len(values) == 0 {
 		return 0

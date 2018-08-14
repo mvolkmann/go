@@ -32,4 +32,7 @@ func main() {
 		},
 	}
 	fmt.Printf("me = %+v\n", me)
+
+	zip := me.address.zip
+	fmt.Println("zip =", zip)
 }
