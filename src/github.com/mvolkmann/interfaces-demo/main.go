@@ -15,15 +15,15 @@ type Geometry interface {
 	name() string
 }
 
-type rect struct {
+type rectangle struct {
 	width, height float64
 }
 
-func (r rect) area() float64 {
+func (r rectangle) area() float64 {
 	return r.width * r.height
 }
-func (r rect) name() string {
-	return "rect"
+func (r rectangle) name() string {
+	return "rectangle"
 }
 
 type circle struct {
@@ -42,7 +42,7 @@ func printArea(g Geometry) {
 }
 
 func main() {
-	r := rect{width: 3, height: 4}
+	r := rectangle{width: 3, height: 4}
 	c := circle{radius: 5}
 	var g Geometry
 
@@ -55,7 +55,7 @@ func main() {
 	switch g.(type) {
 	case circle:
 		fmt.Println("We have a circle.")
-	case rect:
+	case rectangle:
 		fmt.Println("We have a rect.")
 	default:
 		fmt.Println("We have something else.")
