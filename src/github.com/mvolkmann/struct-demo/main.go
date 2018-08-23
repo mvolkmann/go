@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 type address struct {
 	street string
@@ -13,6 +16,20 @@ type person struct {
 	name        string
 	address     // home
 	workAddress address
+}
+
+func unnamedFieldDemo() {
+	type age int
+	type myType struct {
+		name       string // named field
+		age               // get field name from a primitive type
+		time.Month        // get field name from a library type
+	}
+	//myStruct := myType{name: "Mark", int: 7, Month: time.April}
+	myStruct := myType{"Mark", 57, time.April}
+	fmt.Printf("name = %v\n", myStruct.name)
+	fmt.Printf("age = %v\n", myStruct.age)
+	fmt.Printf("Month = %v\n", myStruct.Month)
 }
 
 func main() {
@@ -35,4 +52,6 @@ func main() {
 
 	zip := me.address.zip
 	fmt.Println("zip =", zip)
+
+	unnamedFieldDemo()
 }
