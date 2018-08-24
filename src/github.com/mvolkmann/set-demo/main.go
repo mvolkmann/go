@@ -9,7 +9,9 @@ import (
 func main() {
 	colorSet := set.Strings{}
 	colorSet.Add("red")
+	colorSet.Add("yellow")
 	colorSet.Add("blue")
+	colorSet.Remove("yellow")
 
 	colors := []string{"red", "yellow", "blue"}
 	for _, color := range colors {
@@ -19,4 +21,5 @@ func main() {
 	}
 
 	fmt.Printf("%+v\n", colorSet) // map[red:{} yellow:{}]
+	fmt.Println("length =", len(colorSet))
 }

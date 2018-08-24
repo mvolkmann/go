@@ -17,3 +17,8 @@ func (set Strings) Contains(value string) bool {
 	_, ok := set[value]
 	return ok
 }
+
+// Remove removes a given value from the set.
+func (set Strings) Remove(value string) {
+	delete(set, value)
+}
