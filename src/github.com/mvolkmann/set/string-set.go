@@ -1,3 +1,4 @@
+// See set-demo/main.go for an example of using this.
 package set
 
 type empty struct{} // memory-efficient value for sets
