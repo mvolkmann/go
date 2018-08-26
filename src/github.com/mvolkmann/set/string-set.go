@@ -1,3 +1,4 @@
+// Package set demonstrates implementing a set of strings.
 // See set-demo/main.go for an example of using this.
 package set
 
