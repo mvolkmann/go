@@ -4,8 +4,7 @@ import (
 	"fmt"
 )
 
-// LinkedList implements a linked list of integers.
-//TODO: Make this work with any data type.
+// LinkedList implements a linked list with values of any type.
 type LinkedList struct {
 	head *node
 }
@@ -17,6 +16,7 @@ type node struct {
 	next  *node
 }
 
+// clear removes all nodes.
 func (listPtr *LinkedList) clear() {
 	listPtr.head = nil
 }
@@ -25,16 +25,21 @@ func (listPtr *LinkedList) isEmpty() bool {
 	return listPtr.head == nil
 }
 
-func (listPtr *LinkedList) push(value any) {
-	node := node{value, listPtr.head}
-	listPtr.head = &node
-}
-
+// pop removes the first node and returns its value.
 func (listPtr *LinkedList) pop() any {
+	if listPtr.isEmpty() {
+		return nil
+	}
 	node := listPtr.head
 	value := node.value
 	listPtr.head = node.next
 	return value
+}
+
+// push adds a node to the front.
+func (listPtr *LinkedList) push(value any) {
+	node := node{value, listPtr.head}
+	listPtr.head = &node
 }
 
 // Why can't the receiver name differ from the other methods
