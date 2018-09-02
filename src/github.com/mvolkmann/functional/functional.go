@@ -51,7 +51,6 @@ func assertKind(value interface{}, kind reflect.Kind) {
 // that pass a given predicate function.
 func Filter(slice interface{}, predicate interface{}) interface{} {
 	assertKind(slice, reflect.Slice)
-
 	sliceType := reflect.TypeOf(slice)
 	elementKind := sliceType.Elem().Kind()
 	assertFunc(predicate, []reflect.Kind{elementKind}, []reflect.Kind{reflect.Bool})
@@ -82,7 +81,6 @@ func Filter(slice interface{}, predicate interface{}) interface{} {
 // the new elements are the results of calling fn on each existing element.
 func Map(slice interface{}, fn interface{}) interface{} {
 	assertKind(slice, reflect.Slice)
-
 	sliceType := reflect.TypeOf(slice)
 	elementKind := sliceType.Elem().Kind()
 	assertFunc(fn, []reflect.Kind{elementKind}, []reflect.Kind{elementKind})
@@ -101,6 +99,36 @@ func Map(slice interface{}, fn interface{}) interface{} {
 		in[0] = elementValue
 		out := fnValue.Call(in)
 		result = reflect.Append(result, out[0])
+	}
+
+	return result.Interface()
+}
+
+// Reduce reduces the elements in a slice to a single value.
+func Reduce(slice interface{}, fn interface{}, initial interface{}) interface{} {
+	assertKind(slice, reflect.Slice)
+
+	initialKind := reflect.TypeOf(initial).Kind()
+
+	sliceType := reflect.TypeOf(slice)
+	elementKind := sliceType.Elem().Kind()
+	assertFunc(fn, []reflect.Kind{initialKind, elementKind}, []reflect.Kind{elementKind})
+
+	// Create result slice with same type as first argument.
+	result := reflect.ValueOf(initial)
+
+	fnValue := reflect.ValueOf(fn)
+	sliceValue := reflect.ValueOf(slice)
+
+	for i := 0; i < sliceValue.Len(); i++ {
+		element := sliceValue.Index(i).Interface()
+		elementValue := reflect.ValueOf(element)
+
+		in := make([]reflect.Value, 2)
+		in[0] = result
+		in[1] = elementValue
+		out := fnValue.Call(in)
+		result = out[0]
 	}
 
 	return result.Interface()

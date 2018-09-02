@@ -35,6 +35,16 @@ func Test_Map(t *testing.T) {
 	}
 }
 
+func Test_Reduce(t *testing.T) {
+	values := []int{1, 2, 7}
+	fn := func(acc int, n int) int { return acc + n }
+	actual := Reduce(values, fn, 0)
+	expected := 10
+	if actual != expected {
+		t.Errorf("Reduce expected %v but got %v", expected, actual)
+	}
+}
+
 func Test_FilterInts(t *testing.T) {
 	values := []int{1, 2, 4, 7, 10}
 	expected := []int{2, 4, 10}
