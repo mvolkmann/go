@@ -1,6 +1,7 @@
-package mapover
+package functional
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
@@ -14,6 +15,25 @@ func TestMain(m *testing.M) {
 }
 */
 
+/*
+func Test_FilterAny(t *testing.T) {
+	values := []int{1, 2, 4, 7, 10}
+	expected := []int{2, 4, 10}
+	actual := FilterAny(values.([]interface{}), func(n int) bool { return n%2 == 0 })
+	if !reflect.DeepEqual(actual, expected) {
+		t.Errorf("FilterInts expected %v but got %v", expected, actual)
+	}
+
+}
+*/
+
+func Test_FilterAny(t *testing.T) {
+	arr := []int{1, 2, 4, 7, 10}
+	fn := func(n int) bool { return n%2 == 0 }
+	result := FilterAny(arr, fn)
+	fmt.Println("result =", result)
+}
+
 func Test_FilterInts(t *testing.T) {
 	values := []int{1, 2, 4, 7, 10}
 	expected := []int{2, 4, 10}
@@ -21,6 +41,13 @@ func Test_FilterInts(t *testing.T) {
 	if !reflect.DeepEqual(actual, expected) {
 		t.Errorf("FilterInts expected %v but got %v", expected, actual)
 	}
+}
+
+func ExampleFilterInts() {
+	values := []int{1, 2, 4, 7, 10}
+	fmt.Println(FilterInts(values, func(n int) bool { return n%2 == 0 }))
+	// Output:
+	// [2 4 10]
 }
 
 func Test_MapFloats(t *testing.T) {

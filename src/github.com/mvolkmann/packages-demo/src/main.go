@@ -1,8 +1,8 @@
 package main
 
-import "foo/bar"
+import bark "foo/bar"
 
 func main() {
-  bar.Alpha()
-  bar.Beta()
+	bark.Alpha()
+	bark.Beta()
 }

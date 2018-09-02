@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type person struct {
 	name string
@@ -9,6 +11,10 @@ type person struct {
 
 func (p *person) birthday() {
 	p.age++
+}
+
+func (p person) toString() string {
+	return fmt.Sprintf("%s is %d years old.", p.name, p.age)
 }
 
 type number int
@@ -22,8 +28,5 @@ func main() {
 	(&p).birthday()            // The method can be invoked on a pointer to a person.
 	p.birthday()               // It can also be invoked on a person.
 	fmt.Printf("p = %+v\n", p) // main.person{name:"Mark", age:58}
-
-	n := number(3)
-	// could also use var n number = 3
-	fmt.Println("double result =", n.double()) // 6
+	fmt.Printf(p.toString())
 }

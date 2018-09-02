@@ -1,4 +1,55 @@
-package mapover
+package functional
+
+import (
+	"log"
+	"reflect"
+)
+
+// FilterAny tries to work.
+func FilterAny(slice interface{}, fn interface{}) interface{} {
+	// Verify the first argument.
+	sliceType := reflect.TypeOf(slice)
+	if sliceType.Kind() != reflect.Slice {
+		log.Fatal("FilterAny first argument must be a slice")
+	}
+	elementType := sliceType.Elem()
+
+	// Verify the second argument.
+	fnType := reflect.TypeOf(fn)
+	if fnType.Kind() != reflect.Func {
+		log.Fatal("FilterAny second argument must be a function")
+	}
+	if fnType.NumIn() != 1 {
+		log.Fatal("FilterAny second argument must be a function that has one parameter")
+	}
+	if elementType.Kind() != fnType.In(0).Kind() {
+		log.Fatal("FilterAny slice element type must match fn first parameter type")
+	}
+	if fnType.NumOut() != 1 {
+		log.Fatal("FilterAny second argument must be a function that has one return type")
+	}
+	if fnType.Out(0).Kind() != reflect.Bool {
+		log.Fatal("FilterAny second argument must be a function that returns a bool")
+	}
+
+	sliceValue := reflect.ValueOf(slice)
+	fnValue := reflect.ValueOf(fn)
+
+	result := reflect.New(sliceType).Elem()
+
+	for i := 0; i < sliceValue.Len(); i++ {
+		element := sliceValue.Index(i).Interface()
+		elementValue := reflect.ValueOf(element)
+		in := make([]reflect.Value, 1)
+		in[0] = elementValue
+		out := fnValue.Call(in)
+		if out[0].Bool() == true {
+			result = reflect.Append(result, elementValue)
+		}
+	}
+
+	return result
+}
 
 // FilterInts takes a slice of int values and
 // a function that takes that type and returns a boolean.
@@ -10,6 +61,15 @@ func FilterInts(arr []int, fn func(int) bool) []int {
 		if fn(v) {
 			result = append(result, v)
 		}
+	}
+	return result
+}
+
+// MapAny tries to work.
+func MapAny(arr []interface{}, fn func(interface{}) interface{}) []interface{} {
+	result := make([]interface{}, len(arr))
+	for i, v := range arr {
+		result[i] = fn(v)
 	}
 	return result
 }

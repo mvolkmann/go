@@ -4,5 +4,5 @@ import "fmt"
 
 // Alpha ...
 func Alpha() {
-  fmt.Println("in Alpha")
+	fmt.Println("in Alpha")
 }
