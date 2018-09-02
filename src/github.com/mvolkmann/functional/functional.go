@@ -5,50 +5,77 @@ import (
 	"reflect"
 )
 
-// FilterAny tries to work.
-func FilterAny(slice interface{}, fn interface{}) interface{} {
-	// Verify the first argument.
-	sliceType := reflect.TypeOf(slice)
-	if sliceType.Kind() != reflect.Slice {
-		log.Fatal("FilterAny first argument must be a slice")
-	}
-	elementType := sliceType.Elem()
+func assertFunc(fn interface{}, in []reflect.Kind, out []reflect.Kind) {
+	assertKind(fn, reflect.Func)
 
-	// Verify the second argument.
 	fnType := reflect.TypeOf(fn)
-	if fnType.Kind() != reflect.Func {
-		log.Fatal("FilterAny second argument must be a function")
-	}
-	if fnType.NumIn() != 1 {
-		log.Fatal("FilterAny second argument must be a function that has one parameter")
-	}
-	if elementType.Kind() != fnType.In(0).Kind() {
-		log.Fatal("FilterAny slice element type must match fn first parameter type")
-	}
-	if fnType.NumOut() != 1 {
-		log.Fatal("FilterAny second argument must be a function that has one return type")
-	}
-	if fnType.Out(0).Kind() != reflect.Bool {
-		log.Fatal("FilterAny second argument must be a function that returns a bool")
+
+	actualNumIn := fnType.NumIn()
+	expectedNumIn := len(in)
+	if actualNumIn != expectedNumIn {
+		log.Fatalf("expected func with %d parameters but had %d\n", expectedNumIn, actualNumIn)
 	}
 
-	sliceValue := reflect.ValueOf(slice)
-	fnValue := reflect.ValueOf(fn)
+	actualNumOut := fnType.NumOut()
+	expectedNumOut := len(out)
+	if actualNumOut != expectedNumOut {
+		log.Fatalf("expected func with %d return types but had %d\n", expectedNumOut, actualNumOut)
+	}
 
+	for i := 0; i < expectedNumIn; i++ {
+		expectedKind := in[i]
+		actualKind := fnType.In(i).Kind()
+		if actualKind != expectedKind {
+			log.Fatalf("expected parameter %d to have kind %s but was %s\n", i+1, expectedKind, actualKind)
+		}
+	}
+
+	for i := 0; i < expectedNumOut; i++ {
+		expectedKind := out[i]
+		actualKind := fnType.Out(i).Kind()
+		if actualKind != expectedKind {
+			log.Fatalf("expected result type %d to have kind %s but was %s\n", i+1, expectedKind, actualKind)
+		}
+	}
+}
+
+func assertKind(value interface{}, kind reflect.Kind) {
+	valueType := reflect.TypeOf(value)
+	valueKind := valueType.Kind()
+	if valueKind != kind {
+		log.Fatalf("expected %s value but got %s\n", kind, valueKind)
+	}
+}
+
+// Filter creates a new slice from the elements in an existing slice
+// that pass a given predicate function.
+func Filter(slice interface{}, predicate interface{}) interface{} {
+	assertKind(slice, reflect.Slice)
+
+	sliceType := reflect.TypeOf(slice)
+	elementKind := sliceType.Elem().Kind()
+	assertFunc(predicate, []reflect.Kind{elementKind}, []reflect.Kind{reflect.Bool})
+
+	// Create result slice with same type as first argument.
 	result := reflect.New(sliceType).Elem()
+
+	predicateValue := reflect.ValueOf(predicate)
+	sliceValue := reflect.ValueOf(slice)
 
 	for i := 0; i < sliceValue.Len(); i++ {
 		element := sliceValue.Index(i).Interface()
 		elementValue := reflect.ValueOf(element)
+
 		in := make([]reflect.Value, 1)
 		in[0] = elementValue
-		out := fnValue.Call(in)
-		if out[0].Bool() == true {
+		out := predicateValue.Call(in)
+
+		if out[0].Bool() {
 			result = reflect.Append(result, elementValue)
 		}
 	}
 
-	return result
+	return result.Interface()
 }
 
 // FilterInts takes a slice of int values and

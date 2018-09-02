@@ -15,23 +15,14 @@ func TestMain(m *testing.M) {
 }
 */
 
-/*
-func Test_FilterAny(t *testing.T) {
+func Test_Filter(t *testing.T) {
 	values := []int{1, 2, 4, 7, 10}
+	predicate := func(n int) bool { return n%2 == 0 }
+	actual := Filter(values, predicate)
 	expected := []int{2, 4, 10}
-	actual := FilterAny(values.([]interface{}), func(n int) bool { return n%2 == 0 })
 	if !reflect.DeepEqual(actual, expected) {
-		t.Errorf("FilterInts expected %v but got %v", expected, actual)
+		t.Errorf("Filter expected %v but got %v", expected, actual)
 	}
-
-}
-*/
-
-func Test_FilterAny(t *testing.T) {
-	arr := []int{1, 2, 4, 7, 10}
-	fn := func(n int) bool { return n%2 == 0 }
-	result := FilterAny(arr, fn)
-	fmt.Println("result =", result)
 }
 
 func Test_FilterInts(t *testing.T) {
