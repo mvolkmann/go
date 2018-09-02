@@ -25,6 +25,16 @@ func Test_Filter(t *testing.T) {
 	}
 }
 
+func Test_Map(t *testing.T) {
+	values := []int{1, 2, 7}
+	fn := func(n int) int { return n * 2 }
+	actual := Map(values, fn)
+	expected := []int{2, 4, 14}
+	if !reflect.DeepEqual(actual, expected) {
+		t.Errorf("Map expected %v but got %v", expected, actual)
+	}
+}
+
 func Test_FilterInts(t *testing.T) {
 	values := []int{1, 2, 4, 7, 10}
 	expected := []int{2, 4, 10}

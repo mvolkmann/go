@@ -78,6 +78,34 @@ func Filter(slice interface{}, predicate interface{}) interface{} {
 	return result.Interface()
 }
 
+// Map creates a new slice from the elements in an existing slice where
+// the new elements are the results of calling fn on each existing element.
+func Map(slice interface{}, fn interface{}) interface{} {
+	assertKind(slice, reflect.Slice)
+
+	sliceType := reflect.TypeOf(slice)
+	elementKind := sliceType.Elem().Kind()
+	assertFunc(fn, []reflect.Kind{elementKind}, []reflect.Kind{elementKind})
+
+	// Create result slice with same type as first argument.
+	result := reflect.New(sliceType).Elem()
+
+	fnValue := reflect.ValueOf(fn)
+	sliceValue := reflect.ValueOf(slice)
+
+	for i := 0; i < sliceValue.Len(); i++ {
+		element := sliceValue.Index(i).Interface()
+		elementValue := reflect.ValueOf(element)
+
+		in := make([]reflect.Value, 1)
+		in[0] = elementValue
+		out := fnValue.Call(in)
+		result = reflect.Append(result, out[0])
+	}
+
+	return result.Interface()
+}
+
 // FilterInts takes a slice of int values and
 // a function that takes that type and returns a boolean.
 // It returns a new slice that only contains the slice elements
