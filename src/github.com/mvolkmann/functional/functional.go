@@ -5,6 +5,7 @@ import (
 	"reflect"
 )
 
+// assertFunc asserts the parameter and return types of a given function.
 func assertFunc(fn interface{}, in []reflect.Kind, out []reflect.Kind) {
 	assertKind(fn, reflect.Func)
 
@@ -39,6 +40,7 @@ func assertFunc(fn interface{}, in []reflect.Kind, out []reflect.Kind) {
 	}
 }
 
+// assertKind asserts the kind of a given value.
 func assertKind(value interface{}, kind reflect.Kind) {
 	valueType := reflect.TypeOf(value)
 	valueKind := valueType.Kind()
@@ -61,6 +63,7 @@ func Filter(slice interface{}, predicate interface{}) interface{} {
 	predicateValue := reflect.ValueOf(predicate)
 	sliceValue := reflect.ValueOf(slice)
 
+	// Can "range" be used here?
 	for i := 0; i < sliceValue.Len(); i++ {
 		element := sliceValue.Index(i).Interface()
 		elementValue := reflect.ValueOf(element)
@@ -91,6 +94,7 @@ func Map(slice interface{}, fn interface{}) interface{} {
 	fnValue := reflect.ValueOf(fn)
 	sliceValue := reflect.ValueOf(slice)
 
+	// Can "range" be used here?
 	for i := 0; i < sliceValue.Len(); i++ {
 		element := sliceValue.Index(i).Interface()
 		elementValue := reflect.ValueOf(element)
@@ -134,6 +138,7 @@ func Reduce(slice interface{}, fn interface{}, initial interface{}) interface{} 
 	return result.Interface()
 }
 
+/*
 // FilterInts takes a slice of int values and
 // a function that takes that type and returns a boolean.
 // It returns a new slice that only contains the slice elements
@@ -144,27 +149,6 @@ func FilterInts(arr []int, fn func(int) bool) []int {
 		if fn(v) {
 			result = append(result, v)
 		}
-	}
-	return result
-}
-
-// MapAny tries to work.
-func MapAny(arr []interface{}, fn func(interface{}) interface{}) []interface{} {
-	result := make([]interface{}, len(arr))
-	for i, v := range arr {
-		result[i] = fn(v)
-	}
-	return result
-}
-
-// MapFloats takes a slice of float64 values and
-// a function that takes that type and returns that type.
-// It returns a new slice that is the result of
-// applying the function to each element in the slice.
-func MapFloats(arr []float64, fn func(float64) float64) []float64 {
-	result := make([]float64, len(arr))
-	for i, v := range arr {
-		result[i] = fn(v)
 	}
 	return result
 }
@@ -201,3 +185,4 @@ func ReduceInts(arr []int, fn func(int, int) int, initial ...int) int {
 	}
 	return result
 }
+*/
