@@ -56,3 +56,27 @@ func ExampleReduce() {
 	// Output:
 	// 10
 }
+
+func BenchmarkFilter(b *testing.B) {
+	values := []int{1, 2, 7}
+	predicate := func(n int) bool { return n%2 == 0 }
+	for i := 0; i < b.N; i++ {
+		Filter(values, predicate)
+	}
+}
+
+func BenchmarkMap(b *testing.B) {
+	values := []int{1, 2, 7}
+	fn := func(n int) int { return n * 2 }
+	for i := 0; i < b.N; i++ {
+		Map(values, fn)
+	}
+}
+
+func BenchmarkReduce(b *testing.B) {
+	values := []int{1, 2, 7}
+	fn := func(acc int, n int) int { return acc + n }
+	for i := 0; i < b.N; i++ {
+		Reduce(values, fn, 0)
+	}
+}
