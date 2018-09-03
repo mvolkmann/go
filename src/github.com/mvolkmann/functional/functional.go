@@ -13,6 +13,7 @@ func panicF(format string, values ...interface{}) {
 // assertFunc asserts the parameter and return types of a given function.
 // Note that this does not currently detect mismatched struct types.
 // It just verifies that some kind of struct is received if one is required.
+//TODO: Define an assertStruct function that verifies all the struct fields!
 func assertFunc(fn interface{}, in []reflect.Kind, out []reflect.Kind) {
 	assertKind(fn, reflect.Func)
 
