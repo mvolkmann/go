@@ -11,7 +11,7 @@ func Test_Filter(t *testing.T) {
 	// Create a new slice containing only the even values.
 	actual := Filter(values, func(n int) bool { return n%2 == 0 })
 	expected := []int{2, 4, 10}
-	//TODO: Is this the best way to compare slices in a test?
+	// reflect.DeepEqual is the recommended way to compare many things in tests.
 	if !reflect.DeepEqual(actual, expected) {
 		t.Errorf("Filter expected %v but got %v", expected, actual)
 	}
