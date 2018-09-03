@@ -11,26 +11,12 @@ import (
 
 // Album describes a single album.
 type Album struct {
-	wrapperType            string
-	collectionType         string
-	artistId               int
-	collectionId           int
-	amgArtistId            int
-	artistName             string
-	collectionName         string
-	collectionCensoredName string
-	artistViewUrl          string
-	collectionViewUrl      string
-	artworkUrl60           string
-	artworkUrl100          string
-	collectionPrice        float32
-	collectionExplicitness string
-	trackCount             int
-	copyright              string
-	country                string
-	currency               string
-	releaseDate            string
-	primaryGenreName       string
+	ArtistID         int
+	CollectionID     int
+	ArtistName       string
+	CollectionName   string
+	ReleaseDate      string
+	PrimaryGenreName string
 }
 
 // Albums describes a collection of albums.
@@ -56,12 +42,12 @@ func main() {
 
 	body, err := ioutil.ReadAll(resp.Body)
 	check(err)
-	fmt.Println("body =", string(body))
+	//fmt.Println("body =", string(body))
 
-	//err = json.Unmarshal(body, &albums)
 	var albums Albums
-	decoder := json.NewDecoder(resp.Body)
-	err = decoder.Decode(&albums)
+	err = json.Unmarshal(body, &albums)
+	//decoder := json.NewDecoder(resp.Body)
+	//err = decoder.Decode(&albums)
 	check(err)
 	fmt.Printf("albums = %+v\n", albums)
 }
