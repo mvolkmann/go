@@ -1,9 +1,14 @@
 package functional
 
 import (
-	"log"
+	"fmt"
 	"reflect"
 )
+
+func panicF(format string, values ...interface{}) {
+	msg := fmt.Sprintf(format, values...)
+	panic(msg)
+}
 
 // assertFunc asserts the parameter and return types of a given function.
 func assertFunc(fn interface{}, in []reflect.Kind, out []reflect.Kind) {
@@ -14,20 +19,20 @@ func assertFunc(fn interface{}, in []reflect.Kind, out []reflect.Kind) {
 	actualNumIn := fnType.NumIn()
 	expectedNumIn := len(in)
 	if actualNumIn != expectedNumIn {
-		log.Fatalf("expected func with %d parameters but had %d\n", expectedNumIn, actualNumIn)
+		panicF("expected func with %d parameters but had %d\n", expectedNumIn, actualNumIn)
 	}
 
 	actualNumOut := fnType.NumOut()
 	expectedNumOut := len(out)
 	if actualNumOut != expectedNumOut {
-		log.Fatalf("expected func with %d return types but had %d\n", expectedNumOut, actualNumOut)
+		panicF("expected func with %d return types but had %d\n", expectedNumOut, actualNumOut)
 	}
 
 	for i := 0; i < expectedNumIn; i++ {
 		expectedKind := in[i]
 		actualKind := fnType.In(i).Kind()
 		if actualKind != expectedKind {
-			log.Fatalf("expected parameter %d to have kind %s but was %s\n", i+1, expectedKind, actualKind)
+			panicF("expected parameter %d to have kind %s but was %s\n", i+1, expectedKind, actualKind)
 		}
 	}
 
@@ -35,7 +40,7 @@ func assertFunc(fn interface{}, in []reflect.Kind, out []reflect.Kind) {
 		expectedKind := out[i]
 		actualKind := fnType.Out(i).Kind()
 		if actualKind != expectedKind {
-			log.Fatalf("expected result type %d to have kind %s but was %s\n", i+1, expectedKind, actualKind)
+			panicF("expected result type %d to have kind %s but was %s\n", i+1, expectedKind, actualKind)
 		}
 	}
 }
@@ -45,7 +50,7 @@ func assertKind(value interface{}, kind reflect.Kind) {
 	valueType := reflect.TypeOf(value)
 	valueKind := valueType.Kind()
 	if valueKind != kind {
-		log.Fatalf("expected %s value but got %s\n", kind, valueKind)
+		panicF("expected %s value but got %s\n", kind, valueKind)
 	}
 }
 
