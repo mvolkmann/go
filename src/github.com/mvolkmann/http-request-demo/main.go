@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"time"
 )
 
 // Album describes a single album.
@@ -21,8 +22,8 @@ type Album struct {
 
 // Albums describes a collection of albums.
 type Albums struct {
-	resultCount int
-	results     []Album
+	ResultCount int
+	Results     []Album
 }
 
 func check(err error) {
@@ -34,9 +35,11 @@ func check(err error) {
 func main() {
 	artist := "Kat Edmonson"
 	urlPrefix := "https://itunes.apple.com/search?term="
-	url := urlPrefix + strings.Replace(artist, " ", "+", -1) + "&entity=album"
-	fmt.Println("url =", url)
-	resp, err := http.Get(url)
+	getURL := urlPrefix + strings.Replace(artist, " ", "+", -1) + "&entity=album"
+	//getURL := url.PathEscape(urlPrefix + artist + "&entity=album")
+	//fmt.Println("getURL =", getURL)
+
+	resp, err := http.Get(getURL)
 	check(err)
 	defer resp.Body.Close()
 
@@ -46,8 +49,15 @@ func main() {
 
 	var albums Albums
 	err = json.Unmarshal(body, &albums)
-	//decoder := json.NewDecoder(resp.Body)
-	//err = decoder.Decode(&albums)
 	check(err)
-	fmt.Printf("albums = %+v\n", albums)
+	//fmt.Printf("albums = %+v\n", albums)
+
+	fmt.Println("Albums by " + artist)
+	for _, album := range albums.Results {
+		//t, err := time.Parse(time.RFC3339, album.ReleaseDate)
+		t, err := time.Parse(time.RFC3339, album.ReleaseDate)
+		check(err)
+		//fmt.Printf("%s %s\n", album.CollectionName, t.Format("m/d/yyyy"))
+		fmt.Printf("%s released on %d/%d/%d\n", album.CollectionName, t.Month(), t.Day(), t.Year())
+	}
 }
