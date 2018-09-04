@@ -55,7 +55,8 @@ func main() {
 	//fmt.Println("body =", string(body))
 
 	// Using json.Unmarshall is preferred over json.NewDecoder
-	// for JSON in HTTP response bodies.
+	// for JSON in HTTP response bodies.  JSON properties that
+	// don't match a field in the struct being populated are ignored.
 	var albums Albums
 	err = json.Unmarshal(body, &albums)
 	check(err)
