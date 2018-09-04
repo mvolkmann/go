@@ -13,6 +13,8 @@ import (
 )
 
 // Album describes a single album.
+// json.Unmarshall requires all the fields to be exported (uppercase).
+// It matches JSON property names to these case-insensitive.
 type Album struct {
 	ArtistID         int
 	CollectionID     int
@@ -23,6 +25,8 @@ type Album struct {
 }
 
 // Albums describes a collection of albums.
+// json.Unmarshall requires all the fields to be exported (uppercase).
+// It matches JSON property names to these case-insensitive.
 type Albums struct {
 	ResultCount int
 	Results     []Album
@@ -49,6 +53,8 @@ func main() {
 	check(err)
 	//fmt.Println("body =", string(body))
 
+	// Using json.Unmarshall is preferred over json.NewDecoder
+	// for JSON in HTTP response bodies.
 	var albums Albums
 	err = json.Unmarshal(body, &albums)
 	check(err)
