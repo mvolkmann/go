@@ -39,6 +39,7 @@ func check(err error) {
 }
 
 func main() {
+	//TODO: Get artist name from command-line argument.
 	artist := "Kat Edmonson"
 	urlPrefix := "https://itunes.apple.com/search?term="
 	getURL := urlPrefix + strings.Replace(artist, " ", "+", -1) + "&entity=album"
@@ -60,12 +61,14 @@ func main() {
 	check(err)
 	//fmt.Printf("albums = %+v\n", albums)
 
+	//TODO: Sort albums by release date.
 	fmt.Println("Albums by " + artist)
 	for _, album := range albums.Results {
 		//t, err := time.Parse(time.RFC3339, album.ReleaseDate)
 		t, err := time.Parse(time.RFC3339, album.ReleaseDate)
 		check(err)
 		//fmt.Printf("%s %s\n", album.CollectionName, t.Format("m/d/yyyy"))
+		//TODO: Only output name and year?
 		fmt.Printf("%s released on %d/%d/%d\n", album.CollectionName, t.Month(), t.Day(), t.Year())
 	}
 }
