@@ -1,3 +1,5 @@
+// This uses an iTunes REST service.
+// See https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/#lookup.
 package main
 
 import (
