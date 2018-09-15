@@ -36,3 +36,11 @@ func ExampleMax() {
 	// 3.1
 	// 7.2
 }
+
+func BenchmarkMax(b *testing.B) {
+	values := []float64{3.1, 7.2, 5.0}
+
+	for i := 0; i < b.N; i++ {
+		Max(values)
+	}
+}
