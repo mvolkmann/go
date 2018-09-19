@@ -24,6 +24,8 @@ func doWork() int {
 }
 
 func main() {
+	// This calls the function returned by startTimer
+	// when the main function exits.
 	defer startTimer("doWork")()
 	fmt.Println(doWork())
 }
