@@ -30,6 +30,6 @@ func (b *box) volume() float32 {
 
 func main() {
 	myBox := box{d: 2, h: 3, w: 4}
-	fmt.Println("area =", myBox.area())
-	fmt.Println("volume =", myBox.volume())
+	fmt.Println("area =", myBox.area())     // 12
+	fmt.Println("volume =", myBox.volume()) // 24
 }

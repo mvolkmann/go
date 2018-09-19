@@ -10,8 +10,8 @@ func main() {
 	set := hashset.New()   // empty
 	set.Add(1)             // 1
 	set.Add(2, 2, 3, 4, 5) // 3, 1, 2, 4, 5 (random order, duplicates ignored)
-	set.Remove(4)          // 5, 3, 2, 1 (random order)
-	set.Remove(2, 3)       // 1, 5 (random order)
+	set.Remove(4)          // 5, 3, 2, 1
+	set.Remove(2, 3)       // 1, 5
 
 	fmt.Println("contains 1?", set.Contains(1))          // true
 	fmt.Println("contains 1 and 5?", set.Contains(1, 5)) // true

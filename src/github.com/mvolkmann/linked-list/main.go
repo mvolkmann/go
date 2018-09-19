@@ -21,6 +21,7 @@ func (listPtr *LinkedList) clear() {
 	listPtr.head = nil
 }
 
+// isEmpty determines if the LinkedList is empty.
 func (listPtr *LinkedList) isEmpty() bool {
 	return listPtr.head == nil
 }
@@ -31,9 +32,8 @@ func (listPtr *LinkedList) pop() any {
 		return nil
 	}
 	node := listPtr.head
-	value := node.value
 	listPtr.head = node.next
-	return value
+	return node.value
 }
 
 // push adds a node to the front.
@@ -42,8 +42,7 @@ func (listPtr *LinkedList) push(value any) {
 	listPtr.head = &node
 }
 
-// Why can't the receiver name differ from the other methods
-// and be a LinkedList instead of a pointer to one?
+// len returns the length of the LinkedList.
 func (listPtr *LinkedList) len() int {
 	len := 0
 	node := listPtr.head
@@ -65,8 +64,8 @@ func main() {
 	sum := 0
 	for !list.isEmpty() {
 		value := list.pop()
-		sum += value.(int)
 		fmt.Println("value =", value)
+		sum += value.(int)
 	}
 	fmt.Println("sum =", sum)
 }

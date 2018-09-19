@@ -9,8 +9,8 @@ import (
 	"github.com/mvolkmann/logger"
 )
 
-// Geometry ...
-type Geometry interface {
+// Shape ...
+type Shape interface {
 	area() float64
 	name() string
 }
@@ -37,14 +37,14 @@ func (c circle) name() string {
 	return "circle"
 }
 
-func printArea(g Geometry) {
+func printArea(g Shape) {
 	logger.LogVar("area", g.area())
 }
 
 func main() {
 	r := rectangle{width: 3, height: 4}
 	c := circle{radius: 5}
-	var g Geometry
+	var g Shape
 
 	//printArea(g) // panic: runtime error: invalid memory address or nil pointer dereference
 
