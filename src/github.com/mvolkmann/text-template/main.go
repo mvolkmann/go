@@ -6,11 +6,15 @@ import (
 	"text/template"
 )
 
+// StringMap is a map with string keys and values.
+type StringMap map[string]string
+
 // Person describes a person.
 type Person struct {
 	FirstName string
 	LastName  string
 	Colors    []string
+	Players   StringMap
 }
 
 func main() {
@@ -18,20 +22,28 @@ func main() {
 		FirstName: "Mark",
 		LastName:  "Volkmann",
 		Colors:    []string{"red", "yellow", "orange"},
+		Players: StringMap{
+			"basketball": "Michael Jordan",
+			"hockey":     "Wayne Gretzky",
+			"tennis":     "Roger Federer",
+		},
 	}
 
-	content := `{{- $longest := "foo"}}
+	content := `{{$longest := "foo"}}
 The favorite colors of{{" "}}
 {{- .FirstName}} {{.LastName}} are
 {{- range .Colors}}
 	{{- if gt (len .) (len $longest)}}
 		{{- $longest = .}}
   {{- end}}
-	{{.}}
+{{.}}
 {{- end}}
-The longest color name is {{$longest}}.`
-	/*
-	 */
+The longest color name is {{$longest}}.
+
+Favorite Players
+{{range $sport, $player := .Players}}
+	{{- "  "}}{{$sport}}: {{$player}}
+{{end}}`
 
 	// Separate steps.
 	//myTemplate := template.New("my template")
