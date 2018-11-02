@@ -1,0 +1,18 @@
+{{$longest := "foo"}}
+The favorite colors of{{" "}}
+{{- .FirstName}} {{.LastName}} are
+{{- range .Colors}}
+	{{- if gt (len .) (len $longest)}}
+		{{- $longest = .}}
+  {{- end}}
+{{.}}
+{{- end}}
+The longest color name is {{$longest}}.
+
+Salary doubled = {{double .Salary}}
+Total Points = {{sum .PointsPerQuarter}}
+
+Favorite Players
+{{range $sport, $player := .Players}}
+	{{- "  "}}{{$sport}}: {{$player}}
+{{end}}

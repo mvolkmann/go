@@ -11,17 +11,21 @@ type StringMap map[string]string
 
 // Person describes a person.
 type Person struct {
-	FirstName string
-	LastName  string
-	Colors    []string
-	Players   StringMap
+	FirstName        string
+	LastName         string
+	Salary           int
+	PointsPerQuarter []int
+	Colors           []string
+	Players          StringMap
 }
 
 func main() {
 	person := Person{
-		FirstName: "Mark",
-		LastName:  "Volkmann",
-		Colors:    []string{"red", "yellow", "orange"},
+		FirstName:        "Mark",
+		LastName:         "Volkmann",
+		Salary:           1234,
+		PointsPerQuarter: []int{10, 0, 7, 17},
+		Colors:           []string{"red", "yellow", "orange"},
 		Players: StringMap{
 			"basketball": "Michael Jordan",
 			"hockey":     "Wayne Gretzky",
@@ -29,37 +33,36 @@ func main() {
 		},
 	}
 
-	content := `{{$longest := "foo"}}
-The favorite colors of{{" "}}
-{{- .FirstName}} {{.LastName}} are
-{{- range .Colors}}
-	{{- if gt (len .) (len $longest)}}
-		{{- $longest = .}}
-  {{- end}}
-{{.}}
-{{- end}}
-The longest color name is {{$longest}}.
-
-Favorite Players
-{{range $sport, $player := .Players}}
-	{{- "  "}}{{$sport}}: {{$player}}
-{{end}}`
-
-	// Separate steps.
-	//myTemplate := template.New("my template")
-	//myTemplate, err := myTemplate.Parse(content)
-
 	/*
-		// Checking for errors.
+			// Separate steps.
+			myTemplate := template.New("my template")
+			myTemplate, err := myTemplate.Parse(content)
+
+		  // Checking for errors.
 			myTemplate, err := template.New("my template").Parse(content)
 			if err != nil {
-				fmt.Fprintln(os.Stderr, err)
-				return
-			}
+		    fmt.Fprintln(os.Stderr, err)
+		    return
+		  }
 	*/
 
-	// Panic on errors.
-	myTemplate := template.Must(template.New("my template").Parse(content))
+	funcMap := template.FuncMap{
+		"double": func(n int) int { return n * 2 },
+		"sum": func(numbers []int) int {
+			result := 0
+			for _, n := range numbers {
+				result += n
+			}
+			return result
+		},
+	}
+
+	fileName := "template.txt"
+	myTemplate := template.Must( // panics on errors
+		template.
+			New(fileName).
+			Funcs(funcMap).
+			ParseFiles(fileName))
 
 	/*
 		var buf bytes.Buffer // implements the io.Writer interface
