@@ -36,6 +36,9 @@ func (c circle) area() float64 {
 func (c circle) name() string {
 	return "circle"
 }
+func (c circle) diameter() float64 {
+	return c.radius * 2
+}
 
 func printArea(g Shape) {
 	logger.LogVar("area", g.area())
@@ -75,4 +78,5 @@ func main() {
 	g = c
 	fmt.Println("g is a", g.name())
 	printArea(g)
+	fmt.Println("diameter =", g.(circle).diameter())
 }
