@@ -6,9 +6,6 @@ import (
 	"text/template"
 )
 
-// StringMap is a map with string keys and values.
-type StringMap map[string]string
-
 // Person describes a person.
 type Person struct {
 	FirstName        string
@@ -16,7 +13,7 @@ type Person struct {
 	Salary           int
 	PointsPerQuarter []int
 	Colors           []string
-	Players          StringMap
+	Players          map[string]string
 }
 
 func main() {
@@ -26,7 +23,7 @@ func main() {
 		Salary:           1234,
 		PointsPerQuarter: []int{10, 0, 7, 17},
 		Colors:           []string{"red", "yellow", "orange"},
-		Players: StringMap{
+		Players: map[string]string{
 			"basketball": "Michael Jordan",
 			"hockey":     "Wayne Gretzky",
 			"tennis":     "Roger Federer",
