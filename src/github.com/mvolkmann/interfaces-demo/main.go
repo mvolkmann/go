@@ -45,7 +45,8 @@ func printArea(g Shape) {
 }
 
 func main() {
-	r := rectangle{width: 3, height: 4}
+	//r := rectangle{width: 3, height: 4}
+	var r Shape = rectangle{width: 3, height: 4}
 	c := circle{radius: 5}
 	var g Shape
 
