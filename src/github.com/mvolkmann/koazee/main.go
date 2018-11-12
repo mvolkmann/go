@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/wesovilabs/koazee"
 )
@@ -15,18 +16,15 @@ var sum = func(acc, value int) int { return acc + value }
 
 func main() {
 	//logger.Enabled = true
-	result := koazee.StreamOf(numbers).
+	out := koazee.StreamOf(numbers).
 		Filter(isOdd). // [1, 3, 5]
 		Map(double).   // [2, 6, 10]
 		Add(3).        // [2, 6, 10, 3]
 		Reduce(sum)    // 21
-	//Int()          // 21
-	fmt.Printf("err = %v\n", result.Err())
-	fmt.Printf("val = %v\n", result.Val())
-	fmt.Printf("result = %#v\n", result) // 21
-	/*
-		var foo interface{} = 1
-		var bar interface{} = 1
-		fmt.Println(foo.Int() + bar.Int())
-	*/
+	if out.Err() != nil {
+		log.Fatal("got error:", out.Err())
+		return
+	}
+	result := out.Int()
+	fmt.Println("result =", result)
 }
