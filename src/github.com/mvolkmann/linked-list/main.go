@@ -16,19 +16,19 @@ type node struct {
 	next  *node
 }
 
-// clear removes all nodes.
-func (listPtr *LinkedList) clear() {
+// Clear removes all nodes.
+func (listPtr *LinkedList) Clear() {
 	listPtr.head = nil
 }
 
-// isEmpty determines if the LinkedList is empty.
-func (listPtr *LinkedList) isEmpty() bool {
+// IsEmpty determines if the LinkedList is empty.
+func (listPtr *LinkedList) IsEmpty() bool {
 	return listPtr.head == nil
 }
 
-// pop removes the first node and returns its value.
-func (listPtr *LinkedList) pop() any {
-	if listPtr.isEmpty() {
+// Pop removes the first node and returns its value.
+func (listPtr *LinkedList) Pop() any {
+	if listPtr.IsEmpty() {
 		return nil
 	}
 	node := listPtr.head
@@ -36,14 +36,14 @@ func (listPtr *LinkedList) pop() any {
 	return node.value
 }
 
-// push adds a node to the front.
-func (listPtr *LinkedList) push(value any) {
+// Push adds a node to the front.
+func (listPtr *LinkedList) Push(value any) {
 	node := node{value, listPtr.head}
 	listPtr.head = &node
 }
 
-// len returns the length of the LinkedList.
-func (listPtr *LinkedList) len() int {
+// Len returns the length of the LinkedList.
+func (listPtr *LinkedList) Len() int {
 	len := 0
 	node := listPtr.head
 	for node != nil {
@@ -55,15 +55,15 @@ func (listPtr *LinkedList) len() int {
 
 func main() {
 	list := LinkedList{}
-	list.push(1)
-	list.push(3)
-	list.clear()
-	list.push(5)
-	list.push(7)
+	list.Push(1)
+	list.Push(3)
+	list.Clear()
+	list.Push(5)
+	list.Push(7)
 
 	sum := 0
-	for !list.isEmpty() {
-		value := list.pop()
+	for !list.IsEmpty() {
+		value := list.Pop()
 		fmt.Println("value =", value)
 		sum += value.(int)
 	}

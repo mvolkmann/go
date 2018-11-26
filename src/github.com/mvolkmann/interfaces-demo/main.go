@@ -11,55 +11,66 @@ import (
 
 // Shape ...
 type Shape interface {
-	area() float64
-	name() string
+	Area() float64
+	Name() string
 }
 
-type rectangle struct {
+// Rectangle describes a rectangle.
+type Rectangle struct {
 	width, height float64
 }
 
-func (r rectangle) area() float64 {
+// Area returns the area of the Rectangle.
+func (r Rectangle) Area() float64 {
 	return r.width * r.height
 }
-func (r rectangle) name() string {
+
+// Name returns the name of the Rectangle.
+func (r Rectangle) Name() string {
 	return "rectangle"
 }
 
-type circle struct {
+// Circle describes a circle.
+type Circle struct {
 	radius float64
 }
 
-func (c circle) area() float64 {
+// Area returns the area of the Rectangle.
+func (c Circle) Area() float64 {
 	return math.Pi * c.radius * c.radius
 }
-func (c circle) name() string {
+
+// Name returns the name of the Circle.
+func (c Circle) Name() string {
 	return "circle"
 }
-func (c circle) diameter() float64 {
+
+// Diameter returns the diameter of the Circle.
+func (c Circle) Diameter() float64 {
 	return c.radius * 2
 }
 
 func printArea(g Shape) {
-	logger.LogVar("area", g.area())
+	logger.LogVar("area", g.Area())
 }
 
 func main() {
 	//r := rectangle{width: 3, height: 4}
-	var r Shape = rectangle{width: 3, height: 4}
-	c := circle{radius: 5}
+	var r Shape = Rectangle{width: 3, height: 4}
+	c := Circle{radius: 5}
 	var g Shape
 
 	//printArea(g) // panic: runtime error: invalid memory address or nil pointer dereference
 
 	g = r
-	fmt.Println("g is a", g.name())
+	fmt.Println("g is a", g.Name())
+	fmt.Printf("g currently holds a %T\n", g) // main.rectangle
 
 	//switch value := g.(type) {
 	switch g.(type) {
-	case circle:
+	case Circle:
 		fmt.Println("We have a circle.")
-	case rectangle:
+	case Rectangle:
 		fmt.Println("We have a rect.")
 	default:
 		fmt.Println("We have something else.")
@@ -71,13 +82,13 @@ func main() {
 
 	// By accepting a second return value,
 	// the type assertion will not panic if it fails.
-	myRect, ok := g.(circle)
+	myRect, ok := g.(Circle)
 	logger.LogVar("myRect", myRect)
 	logger.LogVar("ok", ok)
 
 	printArea(g)
 	g = c
-	fmt.Println("g is a", g.name())
+	fmt.Println("g is a", g.Name())
 	printArea(g)
-	fmt.Println("diameter =", g.(circle).diameter())
+	fmt.Println("diameter =", g.(Circle).Diameter())
 }
