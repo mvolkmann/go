@@ -1,3 +1,7 @@
+// To build this, enter "go build".
+// To run this,
+// enter ./flags -min 3 -max 5 -prefix foo
+// or ./flags -min=3 -max=5 -prefix=foo
 package main
 
 import (

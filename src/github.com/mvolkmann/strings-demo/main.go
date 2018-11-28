@@ -13,8 +13,8 @@ func main() {
 	fmt.Println("Index =", strings.Index(text, "cd"))         // 2
 
 	names := []string{"Mark", "Tami", "Amanda", "Jeremy"}
-	joined := strings.Join(names, " - ")
-	fmt.Printf("joined = %+v\n", joined) // Mark - Tami - Amanda - Jeremy
+	joined := strings.Join(names, ", ")
+	fmt.Printf("joined = %+v\n", joined) // Mark, Tami, Amanda, Jeremy
 
 	fmt.Println("Repeat =", strings.Repeat(text, 2))        // abcdefabcdef
 	fmt.Println("Split =", strings.Split(text, "cd"))       // [ab ef]
@@ -22,12 +22,12 @@ func main() {
 	fmt.Println("Trim =", strings.Trim("  foo bar  ", " ")) // "foo bar"
 	// Also see TrimLeft and TrimRight.
 
-	// The Builder type supports efficiently building dynamic strings.
+	// The Builder type supports efficiently building strings.
 	var b strings.Builder
 	b.WriteString("Foo")
 	b.WriteString("Bar")
 	b.WriteString("Baz")
-	// Other Write methods on the Builder include
+	// Other Write methods in Builder include:
 	// Write to write a byte slice
 	// WriteByte to write a single byte
 	// WriteRune to write a single rune
@@ -37,6 +37,7 @@ func main() {
 	fmt.Println("Replace =", strings.Replace(sentence, "ar", "il", -1)) // Milk goes to the pilk.
 
 	// The Replacer type provides a more powerful alternative to strings.Replace.
+	// This demonstrates HTML entity escaping.
 	// Create a Replace object with pairs of old/new strings.
 	r := strings.NewReplacer("&", "&amp;", "'", "&apos;", "\"", "&quot;", "<", "&lt;", ">", "&gt;")
 	// Call the Replace method once for each string to be processed.
