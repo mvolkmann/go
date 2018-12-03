@@ -2,22 +2,36 @@ package main
 
 import "fmt"
 
-// Only writes to channel.
-func writer(c chan<- int) {
-	c <- 2
-	c <- 7
-}
-
-// Only reads from channel.
-func reader(c <-chan int) {
-	n := <-c
-	fmt.Println("got", n)
-	n = <-c
-	fmt.Println("got", n)
+func getNumbers(min, max, delta int, c chan<- int) {
+	for n := min; n < max; n += delta {
+		c <- n
+	}
+	close(c)
 }
 
 func main() {
-	c := make(chan int) // works buffered or not
-	go writer(c)        // runs in a new goroutine
-	reader(c)           // runs in current goroutine
+	c1 := make(chan int)
+	c2 := make(chan int)
+
+	go getNumbers(1, 10, 2, c1) // odd numbers
+	go getNumbers(2, 10, 2, c2) // even numbers
+
+	n := 0
+	moreEvens, moreOdds := true, true // TODO: Is there any reason to initialize these?
+
+	for {
+		select {
+		case n, moreOdds = <-c1:
+			if moreOdds {
+				fmt.Println(n)
+			}
+		case n, moreEvens = <-c2:
+			if moreEvens {
+				fmt.Println(n)
+			}
+		}
+		if !moreEvens && !moreOdds {
+			break
+		}
+	}
 }

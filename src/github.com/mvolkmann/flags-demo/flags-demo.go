@@ -15,8 +15,9 @@ var prefixPtr = flag.String("prefix", "", "prefix")
 
 func main() {
 	flag.Parse()
-	prefix := *prefixPtr
+	//prefix := *prefixPtr
 	for i := *minPtr; i <= *maxPtr; i++ {
-		fmt.Printf("%s%d\n", prefix, i)
+		//fmt.Printf("%s%d\n", prefix, i)
+		fmt.Printf("%s%d\n", *prefixPtr, i)
 	}
 }
