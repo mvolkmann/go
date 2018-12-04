@@ -28,7 +28,10 @@ func finite() {
 	}
 }
 
-func numbers(c chan int, start int, delta int, sleep int) {
+// numbers sends an infinite sequence of int values to a given channel.
+// It starts at and increments by given int values.
+// It sleeps for a given number of seconds before sending each value.
+func numbers(c chan int, start, delta, sleep int) {
 	n := start
 	for {
 		time.Sleep(time.Duration(sleep) * time.Second)
@@ -56,11 +59,18 @@ loop:
 				break loop
 			}
 			fmt.Println("received", n)
+			//default:
+			//	fmt.Print(".")
 		}
 	}
+	fmt.Println("DONE")
 }
 
 func main() {
 	finite()
-	infinite() // doesn't start until finite finishes
+
+	// The next line isn't executed until the "finite" function finishes
+	// because the select statement in "finite" blocks
+	// and it runs in the main goroutine.
+	infinite()
 }
