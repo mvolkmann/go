@@ -7,10 +7,14 @@ import (
 	"time"
 )
 
-var mutex sync.Mutex
+// We need to prevent concurrent access to this slice.
 var slice = make([]string, 0)
+
+var mutex sync.Mutex
 var wg sync.WaitGroup
 
+// addString adds a given string to the slice
+// after a random number of milliseconds.
 func addString(s string) {
 	mutex.Lock() // prevent concurrent access to the slice
 
@@ -25,7 +29,7 @@ func addString(s string) {
 	mutex.Unlock() // finished using slice
 }
 
-// This adds a string to the slice a given number of times.
+// addStrings adds a string to the slice a given number of times.
 func addStrings(s string, count int) {
 	for n := 0; n < count; n++ {
 		addString(s)
@@ -34,9 +38,12 @@ func addStrings(s string, count int) {
 }
 
 func main() {
-	wg.Add(2) // we will create two new goroutines
+	// Seed random number generation based on the current time.
+	rand.Seed(int64(time.Now().Nanosecond()))
+
+	wg.Add(2)             // we will create two new goroutines
 	go addStrings("X", 5) // starts first goroutine
 	go addStrings("O", 3) // starts second goroutine
-	wg.Wait() // wait for the two goroutines to be done
+	wg.Wait()             // wait for the two goroutines to be done
 	fmt.Printf("%v\n", slice)
 }
