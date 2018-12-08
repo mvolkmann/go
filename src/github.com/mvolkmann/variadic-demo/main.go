@@ -17,4 +17,10 @@ func report(name string, colors ...string) {
 func main() {
 	log("red", 7, true)
 	report("Mark", "yellow", "orange")
+
+	args := []interface{}{"red", 7, true}
+	log(args...)
+
+	colors := []string{"yellow", "orange"}
+	report("Mark", colors...)
 }
